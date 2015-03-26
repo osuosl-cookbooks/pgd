@@ -22,11 +22,11 @@ include_recipe 'apache2::mod_wsgi'
 python_version = node['languages']['python']['version']
 version = python_version.split('.')
 version = version[0] + '.' + version[1]
-python_version = 'python#{version}'
+python_version = "python#{version}"
 
 python_path = ::File.join(node['pgd']['virtualenv_path'], 'lib',
                           python_version, 'site-packages')
-wsgi_path = ::File.join(node['pgd']['pgd_path'], 'pgd', 'wsgi.py')
+wsgi_path = ::File.join(node['pgd']['pgd_path'], 'wsgi.py')
 
 web_app node['pgd']['application_name'] do
   template 'pgd_apache_vhost.conf.erb'
