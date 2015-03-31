@@ -19,3 +19,4 @@ gem 'kitchen-vagrant'
 gem 'busser'
 gem 'serverspec'
 gem 'rubocop', require: false
+gem 'kitchen-openstack'
