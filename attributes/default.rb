@@ -1,5 +1,5 @@
-default['pgd']['pgd_path'] = '' # '/home/centos/pgd'
-default['pgd']['virtualenv_path'] = '' # '/home/centos/vrt'
+default['pgd']['pgd_path'] = '/opt/pgd'
+default['pgd']['virtualenv_path'] = '/opt/vrt'
 default['pgd']['user'] = '' # 'centos'
 default['pgd']['group'] = '' # 'centos'
 default['pgd']['superuser'] = []
@@ -30,7 +30,7 @@ default['pgd']['apache']['threads'] = 1
 
 # PGD git
 default['pgd']['git']['repository'] = 'https://github.com/osuosl/pgd.git'
-default['pgd']['git']['revision'] = 'develop'
+default['pgd']['git']['revision'] = '9faf6f91ab119ebbdb16c3c0916414bd39581d2b'
 
 override['build-essential']['compile_time'] = true
 

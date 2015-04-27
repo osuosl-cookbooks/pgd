@@ -28,8 +28,6 @@ platforms:
         image_ref: "CentOS 6.6"
     attributes:
         pgd:
-            pgd_path: "/opt/pgd"
-            virtualenv_path: "/opt/vrt"
             user: "centos"
             group: "centos"
 

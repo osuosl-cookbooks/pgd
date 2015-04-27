@@ -29,27 +29,6 @@ include_recipe 'yum-ius'
 
 secrets = Chef::EncryptedDataBagItem.load('pgd', 'pgd_secrets')
 
-python_webapp 'pgd_core' do
-  create_user true
-  owner node['pgd']['user']
-  group node['pgd']['group']
-
-  repository node['pgd']['repository']
-  revision node['pgd']['revision']
-
-  path node['pgd']['pgd_path']
-  virtualenv_path node['pgd']['virtualenv_path']
-  requirements_file "#{ node['pgd']['pgd_path'] }/requirements.txt"
-
-  config_template 'django_settings.py.erb'
-  config_destination "#{ node['pgd']['pgd_path'] }/settings.py"
-  config_vars(
-    app: node['pgd'],
-    secrets: secrets
-             )
-  interpreter 'python2.7'
-end
-
 # cairocffi dependency
 package 'libffi-devel'
 # custom dssp package for pgd
@@ -58,11 +37,25 @@ package 'osuosl-dssp' do
   action :install
 end
 
-directory node['pgd']['pgd_path'] do
+python_webapp 'pgd_core' do
+  create_user true
   owner node['pgd']['user']
   group node['pgd']['group']
-  mode '0755'
-  action :create
+
+  repository node['pgd']['git']['repository']
+  revision node['pgd']['git']['revision']
+
+  path node['pgd']['pgd_path']
+  virtualenv_path node['pgd']['virtualenv_path']
+  requirements_file 'requirements.txt'
+
+  config_template 'django_settings.py.erb'
+  config_destination "#{ node['pgd']['pgd_path'] }/settings.py"
+  config_vars(
+    app: node['pgd'],
+    secrets: secrets
+             )
+  interpreter 'python2.7'
 end
 
 include_recipe 'pgd_cookbook::database'
