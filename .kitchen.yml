@@ -10,8 +10,8 @@ provisioner:
   encrypted_data_bag_secret_key_path: test/integration/encrypted_data_bag_secret
   attributes:
       pgd:
-          pgd_path: '/home/vagrant/pgd'
-          virtualenv_path: '/home/vagrant/vrt'
+          pgd_path: '/opt/pgd'
+          virtualenv_path: '/opt/vrt'
           user: 'vagrant'
           group: 'vagrant'
 
@@ -19,7 +19,7 @@ platforms:
   - name: centos-6.6
 
 suites:
-  - name: default
+  - name: local
     run_list:
       - recipe[pgd_cookbook::default]
       - recipe[pgd_cookbook::bootstrap_user]

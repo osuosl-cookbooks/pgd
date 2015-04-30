@@ -28,13 +28,13 @@ platforms:
         image_ref: "CentOS 6.6"
     attributes:
         pgd:
-            pgd_path: "/home/centos/pgd"
-            virtualenv_path: "/home/centos/vrt"
+            pgd_path: "/opt/pgd"
+            virtualenv_path: "/opt/vrt"
             user: "centos"
             group: "centos"
 
 suites:
-  - name: default
+  - name: cloud
     run_list:
       - recipe[pgd_cookbook::default]
       - recipe[pgd_cookbook::bootstrap_user]
