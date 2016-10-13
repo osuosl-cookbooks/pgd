@@ -24,7 +24,7 @@ manage = ::File.join(node['pgd']['pgd_path'], 'manage.py')
 
 env = {
   'PGD_CONFIG_DIR' => node['pgd']['virtualenv_path'].to_s,
-  'DJANGO_SETTINGS_MODULE' => 'pgd.settings'
+  'DJANGO_SETTINGS_MODULE' => 'settings'
 }
 
 # Use the attributes to bootstrap users if set, otherwise use databag users
@@ -47,5 +47,5 @@ execute 'create_superuser' do
   user node['pgd']['user']
   group node['pgd']['group']
   environment env
-  cwd '/home/vagrant'
+  cwd node['pgd']['pgd_path']
 end

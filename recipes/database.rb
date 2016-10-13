@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: pgd 
+# Cookbook Name:: pgd
 # Recipe:: database
 #
 # Copyright 2015, Oregon State University

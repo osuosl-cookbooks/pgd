@@ -29,13 +29,6 @@ include_recipe 'yum-ius'
 
 secrets = Chef::EncryptedDataBagItem.load('pgd', 'pgd_secrets')
 
-python_virtualenv node['pgd']['virtualenv_path'] do
-  interpreter 'python2.7'
-  owner node['pgd']['user']
-  group node['pgd']['group']
-  action :create
-end
-
 # cairocffi dependency
 package 'libffi-devel'
 # custom dssp package for pgd
@@ -44,38 +37,25 @@ package 'osuosl-dssp' do
   action :install
 end
 
-directory node['pgd']['pgd_path'] do
+python_webapp 'pgd_core' do
+  create_user true
   owner node['pgd']['user']
   group node['pgd']['group']
-  mode '0755'
-  action :create
-end
 
-git node['pgd']['pgd_path'] do
   repository node['pgd']['git']['repository']
   revision node['pgd']['git']['revision']
-  user node['pgd']['user']
-  group node['pgd']['group']
-end
 
-python_pip "#{node['pgd']['pgd_path']}/requirements.txt" do
-  options '-r'
-  virtualenv node['pgd']['virtualenv_path']
-  action :install
-end
+  path node['pgd']['pgd_path']
+  virtualenv_path node['pgd']['virtualenv_path']
+  requirements_file 'requirements.txt'
 
-#::File.join(node['ganeti_webmgr']['config_dir'], 'config.yml')
-config_file = "#{node['pgd']['pgd_path']}/pgd/settings.py"
-
-template config_file do
-  source 'django_settings.py.erb'
-  owner node['pgd']['user']
-  group node['pgd']['group']
-  mode '0644'
-  variables(
+  config_template 'django_settings.py.erb'
+  config_destination "#{ node['pgd']['pgd_path'] }/settings.py"
+  config_vars(
     app: node['pgd'],
     secrets: secrets
-           )
+             )
+  interpreter 'python2.7'
 end
 
 include_recipe 'pgd_cookbook::database'
